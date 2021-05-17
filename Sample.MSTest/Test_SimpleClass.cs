@@ -5,25 +5,25 @@ using Tortuga.TestMonkey;
 namespace Sample.MSTest
 {
 	[TestClass]
-	[MakeTests(typeof(SimpleClass), TestTypes.All)]
-	public partial class Test_SimpleClass
-	{
-	}
-
-	[TestClass]
 	[MakeTests(typeof(AnotherClass), TestTypes.All)]
 	public partial class Test_AnotherClass
 	{
 	}
-	
+
 	[TestClass]
 	[MakeTests(typeof(NoDefaultConstructor), TestTypes.All)]
 	public partial class Test_NoDefaultConstructor
 	{
-partial void CreateObject(ref Sample.UnderTest.NoDefaultConstructor? objectUnderTest)
-{
-	objectUnderTest = new NoDefaultConstructor("AAA", "BBB");
-}
+		partial void CreateObject(ref Sample.UnderTest.NoDefaultConstructor? objectUnderTest)
+		{
+			objectUnderTest = new NoDefaultConstructor("AAA", "BBB");
+		}
+	}
+
+	[TestClass]
+	[MakeTests(typeof(SimpleClass), TestTypes.All)]
+	public partial class Test_SimpleClass
+	{
 	}
 
 	[TestClass]

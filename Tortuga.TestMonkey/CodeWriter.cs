@@ -41,21 +41,21 @@ namespace Tortuga.TestMonkey
 		public void StartLine() => Content.Append(new string('\t', IndentLevel));
 		public override string ToString() => Content.ToString();
 
-		public void AddTestFramework()
-		{
-			switch (TestFramework)
-			{
-				case TestFramework.MSTest:
-					AppendLine("using Microsoft.VisualStudio.TestTools.UnitTesting;");
-					break;
-				case TestFramework.XUnit:
-					AppendLine("using Xunit;");
-					break;
-				case TestFramework.NUnit:
-					AppendLine("using NUnit.Framework;");
-					break;
-			}
-		}
+public void AddTestFramework()
+{
+	switch (TestFramework)
+	{
+		case TestFramework.MSTest:
+			AppendLine("using Microsoft.VisualStudio.TestTools.UnitTesting;");
+			break;
+		case TestFramework.XUnit:
+			AppendLine("using Xunit;");
+			break;
+		case TestFramework.NUnit:
+			AppendLine("using NUnit.Framework;");
+			break;
+	}
+}
 
 		public IDisposable StartTest(string testName)
 		{

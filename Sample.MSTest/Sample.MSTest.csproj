@@ -35,12 +35,12 @@
   </ItemGroup>
 
 
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
-    <ProjectReference Include="..\Tortuga.TestMonkey\Tortuga.TestMonkey.csproj" OutputItemType="Analyzer" />
-  </ItemGroup>
+<ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ProjectReference Include="..\Tortuga.TestMonkey\Tortuga.TestMonkey.csproj" OutputItemType="Analyzer" />
+</ItemGroup>
   
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="Tortuga.TestMonkey" Version="0.2.0" />
-  </ItemGroup>
+<ItemGroup Condition="'$(Configuration)'=='Release'">
+  <PackageReference Include="Tortuga.TestMonkey" Version="0.2.0" />
+</ItemGroup>
   
 </Project>

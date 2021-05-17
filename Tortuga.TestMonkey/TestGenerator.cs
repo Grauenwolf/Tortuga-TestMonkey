@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Tortuga.TestMonkey
@@ -10,8 +9,6 @@ namespace Tortuga.TestMonkey
 	[Generator]
 	public class TestGenerator : ISourceGenerator
 	{
-		List<string> Log { get; } = new();
-
 		public void Execute(GeneratorExecutionContext context)
 		{
 			// retrieve the populated receiver 
@@ -22,7 +19,6 @@ namespace Tortuga.TestMonkey
 			foreach (var workItem in receiver.WorkItems)
 			{
 				var fileName = workItem.TestClass.FullName() + ".cs";
-
 				var code = new CodeWriter(workItem.TestFramework);
 
 
@@ -43,26 +39,26 @@ namespace Tortuga.TestMonkey
 						if (workItem.ClassUnderTest.HasDefaultConstructor())
 						{
 							code.AppendLine($@"{workItem.ClassUnderTest.FullName()} CreateObject()
-			{{
-				{workItem.ClassUnderTest.FullName()}? result = null;
-				CreateObject(ref result);
-				if (result != null)
-					return result;
+		{{
+			{workItem.ClassUnderTest.FullName()}? result = null;
+			CreateObject(ref result);
+			if (result != null)
+				return result;
 
-				return new {workItem.ClassUnderTest.FullName()}();
-			}}");
+			return new {workItem.ClassUnderTest.FullName()}();
+		}}");
 						}
 						else
 						{
 							code.AppendLine($@"{workItem.ClassUnderTest.FullName()} CreateObject()
-			{{
-				{workItem.ClassUnderTest.FullName()}? result = null;
-				CreateObject(ref result);
-				if (result != null)
-					return result;
+		{{
+			{workItem.ClassUnderTest.FullName()}? result = null;
+			CreateObject(ref result);
+			if (result != null)
+				return result;
 
-				throw new System.NotImplementedException(""Please implement the method 'partial void CreateObject(ref { workItem.ClassUnderTest.FullName()}? objectUnderTest)'."");
-			}}");
+			throw new System.NotImplementedException(""Please implement the method 'partial void CreateObject(ref { workItem.ClassUnderTest.FullName()}? objectUnderTest)'."");
+		}}");
 						}
 
 						code.AppendLine();
@@ -73,51 +69,20 @@ namespace Tortuga.TestMonkey
 				}
 
 				context.AddSource(fileName, SourceText.From(code.ToString(), Encoding.UTF8));
-				lock (SyncRoot)
-				{
-					System.IO.File.AppendAllText(@"C:\temp\build_log.txt", "Created file " + $"{fileName}" + Environment.NewLine);
-					FileCount += 1;
-					System.IO.File.AppendAllText(@$"C:\temp\{fileName}_{FileCount}.cs", code.ToString());
-
-				}
 			}
 
 			//Write the log entries
 			context.AddSource("Logs", SourceText.From($@"/*{ Environment.NewLine + string.Join(Environment.NewLine, receiver.Log) + Environment.NewLine}*/", Encoding.UTF8));
 		}
 
-		static int FileCount;
 
-		private static void PropertySelfAssign(WorkItems workItem, CodeWriter code)
+		public void Initialize(GeneratorInitializationContext context)
 		{
-			if (workItem.TestTypes.HasFlag(TestTypes.PropertySelfAssign))
-			{
-				code.AppendLine();
-				code.AppendLine("//Property Self-assignment Tests");
-
-				foreach (var property in workItem.ClassUnderTest.ReadWriteScalarProperties())
-				{
-					using (code.StartTest($"{property.Name}_SelfAssign"))
-					{
-						code.AppendLine("var objectUnderTest = CreateObject();");
-						code.AppendLine($"var originalValue = objectUnderTest.@{property.Name};");
-						code.AppendLine($"objectUnderTest.{property.Name} = originalValue;");
-						code.AssertAreEqual("originalValue", $"objectUnderTest.@{property.Name}", "Assigning a property to itself should not change its value.");
-					}
-
-
-					lock (SyncRoot)
-					{
-						System.IO.File.AppendAllText(@"C:\temp\build_log.txt", "Creating test for " + $"{property.Name}_SelfAssign" + Environment.NewLine);
-					}
-
-				}
-			}
+			// Register a syntax receiver that will be created for each generation pass
+			context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
 		}
 
-		static object SyncRoot = new();
-
-		private static void PropertyDoubleRead(WorkItems workItem, CodeWriter code)
+		static void PropertyDoubleRead(WorkItems workItem, CodeWriter code)
 		{
 			if (workItem.TestTypes.HasFlag(TestTypes.PropertyDoubleRead))
 			{
@@ -137,14 +102,25 @@ namespace Tortuga.TestMonkey
 			}
 		}
 
-		public void Initialize(GeneratorInitializationContext context)
+		static void PropertySelfAssign(WorkItems workItem, CodeWriter code)
 		{
+			if (workItem.TestTypes.HasFlag(TestTypes.PropertySelfAssign))
+			{
+				code.AppendLine();
+				code.AppendLine("//Property Self-assignment Tests");
 
-			// Register a syntax receiver that will be created for each generation pass
-			context.RegisterForSyntaxNotifications(() => new SyntaxReceiver(Log));
+				foreach (var property in workItem.ClassUnderTest.ReadWriteScalarProperties())
+				{
+					using (code.StartTest($"{property.Name}_SelfAssign"))
+					{
+						code.AppendLine("var objectUnderTest = CreateObject();");
+						code.AppendLine($"var originalValue = objectUnderTest.@{property.Name};");
+						code.AppendLine($"objectUnderTest.{property.Name} = originalValue;");
+						code.AssertAreEqual("originalValue", $"objectUnderTest.@{property.Name}", "Assigning a property to itself should not change its value.");
+					}
+
+				}
+			}
 		}
-
-
-
 	}
 }

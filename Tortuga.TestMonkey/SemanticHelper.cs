@@ -41,10 +41,10 @@ namespace Tortuga.TestMonkey
 		}
 
 
-		public static bool HasDefaultConstructor(this INamedTypeSymbol symbol)
-		{
-			return symbol.Constructors.Any(c => c.Parameters.Count() == 0);
-		}
+public static bool HasDefaultConstructor(this INamedTypeSymbol symbol)
+{
+	return symbol.Constructors.Any(c => c.Parameters.Count() == 0);
+}
 
 		public static IEnumerable<IPropertySymbol> ReadWriteScalarProperties(this INamedTypeSymbol symbol)
 		{

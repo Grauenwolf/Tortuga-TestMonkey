@@ -14,11 +14,7 @@ namespace Tortuga.TestMonkey
 	/// </remarks>
 	class SyntaxReceiver : ISyntaxContextReceiver
 	{
-		public SyntaxReceiver(List<string> log)
-		{
-			Log = log;
-		}
-		public List<string> Log { get; } 
+		public List<string> Log { get; } = new();
 		public List<WorkItems> WorkItems { get; } = new();
 
 		/// <summary>
@@ -52,9 +48,6 @@ namespace Tortuga.TestMonkey
 										Log.Add($"    ...........Property: {property.Name} CanRead:{property.GetMethod != null} CanWrite:{property.SetMethod != null}");
 								}
 							}
-
-							//var classMetadata = Tortuga.Anchor.Metadata.MetadataCache.GetMetadata((Type)arg.Value);
-							//Log.Add("Tortgua metadata found for " + classMetadata.CSharpFullName);
 						}
 					}
 
