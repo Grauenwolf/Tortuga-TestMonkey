@@ -1,5 +1,5 @@
 # Tortuga Test Monkey
-Test Monkey is a source generator creates those unit tests you need, but don't want to write yourself.
+Test Monkey is a source generator which creates those unit tests you need, but don't want to write yourself.
 
 ## Use
 Add a reference to the `Tortuga.TestMonkey` package.
@@ -105,9 +105,9 @@ Test Monkey was originally created in 2011. A project dealing with electronic me
 
 Not looking forward to the overtime, I created the code generator called Test Monkey. It used reflection to create the tedious property and interface unit tests, freeing up the team to concentrate on the more difficult tests.
 
-The original Test Monkey was published on GotDotNet, which was Microsoft’s attempt at an open-source platform. To the best of my knowledge, no one else used it because the setup involved copying the projects into your solution and hard-coding paths to the output DLLs. So the code slowly rotted over time.
+The original Test Monkey was published on GotDotNet, which was Microsoftâ€™s attempt at an open-source platform. To the best of my knowledge, no one else used it because the setup involved copying the projects into your solution and hard-coding paths to the output DLLs. So the code slowly rotted over time.
 
-With C#’s Source Generators, I can finally offer the developer experience that I always wanted for Test Monkey (and learn far more than I wanted to know about Roslyn syntax trees).
+With C#â€™s Source Generators, I can finally offer the developer experience that I always wanted for Test Monkey (and learn far more than I wanted to know about Roslyn syntax trees).
 
 ### Future Tests
 
