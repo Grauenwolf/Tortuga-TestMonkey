@@ -1,4 +1,7 @@
-﻿namespace Sample.UnderTest
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Sample.UnderTest
 {
 	public class AnotherClass
 	{
@@ -21,7 +24,24 @@
 			get => m_BadProperty2++;
 		}
 
+		int m_Age;
 
+		/// <summary>
+		/// Gets or sets the age.
+		/// </summary>
+		/// <value>The age.</value>
+		/// <exception cref="ArgumentOutOfRangeException">Age - Age must be between 0 and 120</exception>
+		[Range(0, 120)]
+		public int Age
+		{
+			get => m_Age;
+			set
+			{
+				if (value < 0 || value > 120)
+					throw new ArgumentOutOfRangeException(nameof(Age), "Age must be between 0 and 120");
+				m_Age = value;
+			}
+		}
 
 	}
 }

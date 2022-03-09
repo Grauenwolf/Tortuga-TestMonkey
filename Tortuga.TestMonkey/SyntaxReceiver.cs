@@ -15,7 +15,7 @@ namespace Tortuga.TestMonkey
 	class SyntaxReceiver : ISyntaxContextReceiver
 	{
 		public List<string> Log { get; } = new();
-		public List<WorkItems> WorkItems { get; } = new();
+		public List<WorkItem> WorkItems { get; } = new();
 
 		/// <summary>
 		/// Called for every syntax node in the compilation, we can inspect the nodes and save any information useful for generation

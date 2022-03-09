@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -18,7 +19,15 @@ namespace Tortuga.TestMonkey
 			var suffix = "";
 			if (symbol.Arity > 0)
 			{
-				suffix = "<" + string.Join(", ", symbol.TypeArguments.Select(targ => FullName((INamedTypeSymbol)targ))) + ">";
+				suffix = "<" + string.Join(", ", symbol.TypeArguments.Select(targ =>
+				{
+					switch (targ)
+					{
+						case INamedTypeSymbol nts: return FullName(nts);
+						case ITypeParameterSymbol tps: return tps.Name;
+					}
+					throw new NotSupportedException($"Cannot generate type name from type argument {targ.GetType().FullName} in type {symbol.Name}");
+				})) + ">";
 			}
 
 			if (prefix != "")
@@ -41,10 +50,10 @@ namespace Tortuga.TestMonkey
 		}
 
 
-public static bool HasDefaultConstructor(this INamedTypeSymbol symbol)
-{
-	return symbol.Constructors.Any(c => c.Parameters.Count() == 0);
-}
+		public static bool HasDefaultConstructor(this INamedTypeSymbol symbol)
+		{
+			return symbol.Constructors.Any(c => c.Parameters.Count() == 0);
+		}
 
 		public static IEnumerable<IPropertySymbol> ReadWriteScalarProperties(this INamedTypeSymbol symbol)
 		{

@@ -82,7 +82,7 @@ namespace Tortuga.TestMonkey
 			context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
 		}
 
-		static void PropertyDoubleRead(WorkItems workItem, CodeWriter code)
+		static void PropertyDoubleRead(WorkItem workItem, CodeWriter code)
 		{
 			if (workItem.TestTypes.HasFlag(TestTypes.PropertyDoubleRead))
 			{
@@ -102,7 +102,7 @@ namespace Tortuga.TestMonkey
 			}
 		}
 
-		static void PropertySelfAssign(WorkItems workItem, CodeWriter code)
+		static void PropertySelfAssign(WorkItem workItem, CodeWriter code)
 		{
 			if (workItem.TestTypes.HasFlag(TestTypes.PropertySelfAssign))
 			{
