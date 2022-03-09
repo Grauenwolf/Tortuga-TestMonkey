@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="Tortuga.TestMonkey" Version="0.2.0" />
+    <PackageReference Include="Tortuga.TestMonkey" Version="0.3.0" />
   </ItemGroup>
 
 </Project>

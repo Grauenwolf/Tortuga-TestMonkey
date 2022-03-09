@@ -6,7 +6,7 @@ Add a reference to the `Tortuga.TestMonkey` package.
 
 ```
 <ItemGroup>
-  <PackageReference Include="Tortuga.TestMonkey" Version="0.2.0" />
+  <PackageReference Include="Tortuga.TestMonkey" Version="0.3.0" />
 </ItemGroup>
 ```
 For each test class, mark the class as partial add the `MakeTest` attribute. 
